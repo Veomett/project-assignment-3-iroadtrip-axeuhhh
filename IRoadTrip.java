@@ -1,7 +1,5 @@
 import java.util.*;
 
-
-
 import java.io.*;
 
 public class IRoadTrip {
@@ -91,15 +89,6 @@ public class IRoadTrip {
     
 	
 
-
-    public static void main(String[] args) throws IOException {
-        if (args.length<3) {
-        	System.err.print("Please enter 3 file names!");
-        }
-    	IRoadTrip a3 = new IRoadTrip(args);
-        //borders.txt capdist.csv state_name.tsv
-        a3.acceptUserInput();
-    }
  
   	
   	
@@ -134,69 +123,69 @@ public class IRoadTrip {
 
 
   // here 
-  public HashMap<String, String> dijkstra(String source, String dest){ // return HashMap<String, String> which is the path hash map
-      
+ 
+  	public HashMap<String, String> dijkstra(String source, String dest){ // return HashMap<String, String> which is the path hash map
+  	    
 
 
-  	    PriorityQueue<Node> costMinHeap = new PriorityQueue<>();
-  		//Node[] finalCosts = new Node[Graph.size()];// here we store the final distance from the source of that vertex
-  		// Add another hash map here that will help you trace the min path.  Put "previous" here.  It should get re-made every time dijkstra's is called
-  		HashMap<String, Integer> currentCosts = new HashMap<>(); // this should be *current* costs.  Also include a set to mark which countries are finalized
-  		
-  		HashMap<String, Integer> NodeCost = new HashMap<>();
-  		
-  		HashMap<String, String> prev = new HashMap<>();
-  		
-  		Set<String> finalized = new HashSet<>();
-  		
-  		
-  		for (String country: Graph.keySet()){
-              if (country.equals(source)){
-                  currentCosts.put(source, 0);
-                  //System.out.println("Destination is " + country1);
-                  if (Graph.get(source) != null){
-                      for (String neighbor: Graph.get(source).keySet()){
-                          currentCosts.put(neighbor, getDistance(source, neighbor));
-                          costMinHeap.add(new Node(neighbor, getDistance(source, neighbor)));
-                          //System.out.println("Putting in neighbor " + neighbor + " with distance " + getDistance(country1, neighbor));
-                          prev.put(neighbor, source);
-                      }
-                  }
-              }
-          }
-  	
-  	    while (!finalized.contains(dest) && !costMinHeap.isEmpty()){
-  	        Node curNode = costMinHeap.poll();
-  	        //System.out.println("Pulling country " + curNode.country);
-  	        //Integer dist = curNode.distance;  // don't need?
-  	        if (curNode != null && !finalized.contains(curNode.name) && Graph.get(curNode.name) != null){
-  	            finalized.add(curNode.name);
-  	            for (String s : Graph.get(curNode.name).keySet()){
-  	                Integer neighborDist = getDistance(curNode.name, s);
-  	                if (neighborDist != -1 && !currentCosts.containsKey(s)){ // neighbor not yet initialized
-  	                	currentCosts.put(s, currentCosts.get(curNode.name) + neighborDist);
-  	                    prev.put(s, curNode.name);
-  	                    Node insertedNode = new Node(s, currentCosts.get(s));
-  	                    costMinHeap.add(insertedNode);
-  	                }
-  	                else if (neighborDist != -1 && currentCosts.get(curNode.name) + neighborDist < currentCosts.get(s)){
-  	                	currentCosts.replace(s, currentCosts.get(curNode.name) + neighborDist);
-  	                    prev.put(s, curNode.name);
-  	                    Node insertedNode = new Node(s, currentCosts.get(s));
-  	                    costMinHeap.add(insertedNode);
-  	                }
-  	            }
-  	        }
-  	    }
-  	    if(finalized.contains(dest) && (currentCosts.get(dest)!=null)){
-  	        return prev;
-  	    }
-  	    else{
-  	        return null;
-  	    }
-  	 
-  	}
-
+	    PriorityQueue<Node> costMinHeap = new PriorityQueue<>();
+		//Node[] finalCosts = new Node[Graph.size()];// here we store the final distance from the source of that vertex
+		// Add another hash map here that will help you trace the min path.  Put "previous" here.  It should get re-made every time dijkstra's is called
+		HashMap<String, Integer> currentCosts = new HashMap<>(); // this should be *current* costs.  Also include a set to mark which countries are finalized
+		
+		HashMap<String, Integer> NodeCost = new HashMap<>();
+		
+		HashMap<String, String> prev = new HashMap<>();
+		
+		Set<String> finalized = new HashSet<>();
+		
+		
+		for (String country: Graph.keySet()){
+            if (country.equals(source)){
+                currentCosts.put(source, 0);
+                //System.out.println("Destination is " + country1);
+                if (Graph.get(source) != null){
+                    for (String neighbor: Graph.get(source).keySet()){
+                        currentCosts.put(neighbor, getDistance(source, neighbor));
+                        costMinHeap.add(new Node(neighbor, getDistance(source, neighbor)));
+                        //System.out.println("Putting in neighbor " + neighbor + " with distance " + getDistance(country1, neighbor));
+                        prev.put(neighbor, source);
+                    }
+                }
+            }
+        }
+	
+	    while (!finalized.contains(dest) && !costMinHeap.isEmpty()){
+	        Node curNode = costMinHeap.poll();
+	        //System.out.println("Pulling country " + curNode.country);
+	        //Integer dist = curNode.distance;  // don't need?
+	        if (curNode != null && !finalized.contains(curNode.name) && Graph.get(curNode.name) != null){
+	            finalized.add(curNode.name);
+	            for (String s : Graph.get(curNode.name).keySet()){
+	                Integer neighborDist = getDistance(curNode.name, s);
+	                if (neighborDist != -1 && !currentCosts.containsKey(s)){ // neighbor not yet initialized
+	                	currentCosts.put(s, currentCosts.get(curNode.name) + neighborDist);
+	                    prev.put(s, curNode.name);
+	                    Node insertedNode = new Node(s, currentCosts.get(s));
+	                    costMinHeap.add(insertedNode);
+	                }
+	                else if (neighborDist != -1 && currentCosts.get(curNode.name) + neighborDist < currentCosts.get(s)){
+	                	currentCosts.replace(s, currentCosts.get(curNode.name) + neighborDist);
+	                    prev.put(s, curNode.name);
+	                    Node insertedNode = new Node(s, currentCosts.get(s));
+	                    costMinHeap.add(insertedNode);
+	                }
+	            }
+	        }
+	    }
+	    if(finalized.contains(dest) && (currentCosts.get(dest)!=null)){
+	        return prev;
+	    }
+	    else{
+	        return null;
+	    }
+	 
+	}
 
   	public void specialCases() throws FileNotFoundException{
   		File f  = new File("diffnames.txt");
@@ -319,7 +308,7 @@ public class IRoadTrip {
       	
       	String s = country2;
       	while(s!=country1) {
-      		System.out.println("* "+s + " -->" +map.get(s) + "("+ getDistance(s, map.get(s))+"km.)");
+      		System.out.println("* "+s + " -->" +map.get(s) + " ("+ getDistance(s, map.get(s))+"km.)");
       		s=map.get(s);
       	}
       	
@@ -356,6 +345,14 @@ public class IRoadTrip {
       	}
       	// Replace with your code
          
+      }
+      public static void main(String[] args) throws IOException {
+          if (args.length<3) {
+          	System.err.print("Please enter 3 file names!");
+          }
+      	IRoadTrip a3 = new IRoadTrip(args);
+          //borders.txt capdist.csv state_name.tsv
+          a3.acceptUserInput();
       }
    
 
