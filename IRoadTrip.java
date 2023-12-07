@@ -1,5 +1,5 @@
+//@author AxelNdombasi
 import java.util.*;
-
 import java.io.*;
 
 public class IRoadTrip {
@@ -91,7 +91,8 @@ public class IRoadTrip {
 
  
   	
-  	
+  	//testing to find invalid countries 
+    
   	public void negativeOne(){
   		for (String s : Graph.keySet()) {
   			for (String j : Graph.get(s).keySet()) {
@@ -103,7 +104,7 @@ public class IRoadTrip {
   	}
 
   		
-
+  	//node class for the minheap
   	private class Node implements Comparable<Node>{
   		int cost;
   		String name;
@@ -129,8 +130,7 @@ public class IRoadTrip {
 
 
 	    PriorityQueue<Node> costMinHeap = new PriorityQueue<>();
-		//Node[] finalCosts = new Node[Graph.size()];// here we store the final distance from the source of that vertex
-		// Add another hash map here that will help you trace the min path.  Put "previous" here.  It should get re-made every time dijkstra's is called
+		
 		HashMap<String, Integer> currentCosts = new HashMap<>(); // this should be *current* costs.  Also include a set to mark which countries are finalized
 		
 		HashMap<String, Integer> NodeCost = new HashMap<>();
@@ -157,8 +157,6 @@ public class IRoadTrip {
 	
 	    while (!finalized.contains(dest) && !costMinHeap.isEmpty()){
 	        Node curNode = costMinHeap.poll();
-	        //System.out.println("Pulling country " + curNode.country);
-	        //Integer dist = curNode.distance;  // don't need?
 	        if (curNode != null && !finalized.contains(curNode.name) && Graph.get(curNode.name) != null){
 	            finalized.add(curNode.name);
 	            for (String s : Graph.get(curNode.name).keySet()){
@@ -270,7 +268,7 @@ public class IRoadTrip {
       }
       
       
-      
+      //getting the distances from the capital file
       public int capDist( String originCode, String destCode) throws FileNotFoundException {
       	
       	File f = new File("capdist.csv");
@@ -296,7 +294,7 @@ public class IRoadTrip {
       	
       }
 
-
+      //printing the paths
       public List<String> findPath (String country1, String country2) {
           // Replace with your code
       	
@@ -346,6 +344,10 @@ public class IRoadTrip {
       	// Replace with your code
          
       }
+      
+      
+      
+      //main
       public static void main(String[] args) throws IOException {
           if (args.length<3) {
           	System.err.print("Please enter 3 file names!");
